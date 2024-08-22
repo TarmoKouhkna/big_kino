@@ -1,0 +1,18 @@
+<!-- userprofiles/templates/userprofiles/profile.html -->
+
+<h2>My Profile</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ user_form.as_p }}
+    {{ profile_form.as_p }}
+    <button type="submit">Update Profile</button>
+</form>
+
+<h3>My Watchlists</h3>
+<ul>
+    {% for watchlist in user_watchlists %}
+    <li>
+        {{ watchlist.name }} ({{ watchlist.movies.count }} movies)
+    </li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,14 @@
+<!-- moviedetails/templates/moviedetails/add_to_watchlist.html -->
+
+<h2>Add "{{ movie.title }}" to Watchlist</h2>
+<form method="POST">
+    {% csrf_token %}
+    <label for="watchlist">Select Watchlist:</label>
+    <select name="watchlist" id="watchlist">
+        {% for watchlist in watchlists %}
+        <option value="{{ watchlist.id }}">{{ watchlist.name }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Add to Watchlist</button>
+</form>
+<a href="{% url 'moviedetails:movie_detail' movie.id %}">Cancel</a>

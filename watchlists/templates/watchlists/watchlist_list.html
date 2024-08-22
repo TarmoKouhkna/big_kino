@@ -1,0 +1,13 @@
+<h2>My Watchlists</h2>
+<a href="{% url 'watchlists:watchlist_create' %}">Create New Watchlist</a>
+<ul>
+    {% for watchlist in watchlists %}
+    <li>
+        <a href="{% url 'watchlists:watchlist_update' watchlist.pk %}">{{ watchlist.name }}</a>
+        <form method="POST" action="{% url 'watchlists:watchlist_delete' watchlist.pk %}">
+            {% csrf_token %}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
