@@ -1,0 +1,27 @@
+/* static/css/styles.css */
+
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Navbar styling */
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Footer styling */
+.footer {
+    background-color: #343a40;
+    color: #ffffff;
+}
+
+/* Movie detail page styling */
+h2 {
+    margin-bottom: 20px;
+}
+
+ul.list-group {
+    margin-top: 20px;
+}

@@ -1,20 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ movie.title }} - Details</title>
-</head>
-<body>
-    <h1>{{ movie.title }}</h1>
-    <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}">
-    <p><strong>Overview:</strong> {{ movie.overview }}</p>
-    <p><strong>Release Date:</strong> {{ movie.release_date }}</p>
-    <p><strong>Rating:</strong> {{ movie.vote_average }}/10</p>
-    <p><strong>Runtime:</strong> {{ movie.runtime }} minutes</p>
+{% extends "base.html" %}
+{% load static %}
 
-    <hr>
+{% block title %}{{ movie.title|default:"Movie Details" }}{% endblock %}
 
-    <a href="{% url 'moviesearch:search_movies' %}">Back to Search</a>
-</body>
-</html>
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            {% if movie.poster_path %}
+                <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }} Poster" class="img-fluid">
+            {% else %}
+                <img src="{% static 'images/default-poster.jpg' %}" alt="Poster" class="img-fluid">
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <h2>{{ movie.title|default:"(No Title)" }} ({{ movie.release_date|slice:":4"|default:"Unknown Year" }})</h2>
+            <p><strong>Overview:</strong> {{ movie.overview|default:"No overview available" }}</p>
+            <p><strong>Rating:</strong> {{ movie.vote_average|default:"Not rated" }}/10</p>
+            <p><strong>Runtime:</strong> {% if movie.runtime %} {{ movie.runtime }} minutes {% else %} Not available {% endif %}</p>
+
+            <!-- Watchlist and Review Sections -->
+            {% if user.is_authenticated %}
+            <div class="mt-4">
+                <form method="POST" action="{% url 'moviedetails:add_to_watchlist' movie.id %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="watchlist">Add to Watchlist</label>
+                        <select id="watchlist" name="watchlist" class="form-control">
+                            {% for watchlist in watchlists %}
+                            <option value="{{ watchlist.id }}">{{ watchlist.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add to Watchlist</button>
+                </form>
+            </div>
+            {% endif %}
+
+            <!-- User Reviews Section -->
+            <div class="mt-4">
+                <h4>User Reviews</h4>
+                <p>No reviews yet. Be the first to review this movie!</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

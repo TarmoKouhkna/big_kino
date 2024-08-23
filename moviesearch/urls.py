@@ -1,8 +1,9 @@
+# moviesearch/urls.py
 from django.urls import path
-from .views import search_movies
+from . import views
 
 app_name = 'moviesearch'
 
 urlpatterns = [
-    path('', search_movies, name='search_movies'),
+    path('', views.search_movies, name='search_movies'),  # This should match the URL used in your form
 ]

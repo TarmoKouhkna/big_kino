@@ -1,13 +1,27 @@
-<h2>My Watchlists</h2>
-<a href="{% url 'watchlists:watchlist_create' %}">Create New Watchlist</a>
-<ul>
+<!-- watchlists/templates/watchlists/watchlist_list.html -->
+{% extends "base.html" %}
+
+{% block title %}My Watchlists{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
     {% for watchlist in watchlists %}
-    <li>
-        <a href="{% url 'watchlists:watchlist_update' watchlist.pk %}">{{ watchlist.name }}</a>
-        <form method="POST" action="{% url 'watchlists:watchlist_delete' watchlist.pk %}">
-            {% csrf_token %}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>{{ watchlist.name }}</h2>
+        <a href="{% url 'watchlists:delete_watchlist' watchlist.id %}" class="btn btn-danger">Delete Watchlist</a>
+    </div>
+
+    {% if watchlist.movies.all %}
+    <div class="list-group">
+        {% for movie in watchlist.movies.all %}
+        <a href="{% url 'moviedetails:movie_detail' movie.id %}" class="list-group-item list-group-item-action">
+            {{ movie.title }} ({{ movie.release_date|slice:":4" }})
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No movies in this watchlist.</p>
+    {% endif %}
     {% endfor %}
-</ul>
+</div>
+{% endblock %}

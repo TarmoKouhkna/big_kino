@@ -1,30 +1,13 @@
-"""
-URL configuration for big_kino project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include
 from moviesearch.views import home  # Import the home view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home, name='home'),  # Use the home view for the root URL
-    path('moviesearch/', include('moviesearch.urls')),
-    path('moviedetails/', include('moviedetails.urls')),
-    path('accounts/', include('accounts.urls')),
-    path('profiles/', include('userprofiles.urls')),
-    path('watchlists/', include('watchlists.urls')),
+    path('', home, name='home'),  # Home view
+    path('moviesearch/', include('moviesearch.urls')),  # Moviesearch functionality
+    path('moviedetails/', include('moviedetails.urls')),  # Moviedetails functionality
+    path('accounts/', include('accounts.urls')),  # User accounts
+    path('profiles/', include('userprofiles.urls')),  # Profiles
+    path('watchlists/', include('watchlists.urls')),  # Watchlists
 ]
-

@@ -1,6 +1,20 @@
-<h2>Are you sure you want to delete the watchlist "{{ watchlist.name }}"?</h2>
-<form method="POST">
-    {% csrf_token %}
-    <button type="submit">Confirm Delete</button>
-</form>
-<a href="{% url 'watchlists:watchlist_list' %}">Cancel</a>
+{% extends "base.html" %}
+
+{% block title %}Confirm Deletion{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="alert alert-danger">
+        <h4 class="alert-heading">Are you sure you want to delete this watchlist?</h4>
+        <p>This action cannot be undone.</p>
+    </div>
+
+    <div class="d-flex justify-content-between">
+        <a href="{% url 'watchlists:watchlist_list' watchlist.id %}" class="btn btn-secondary">Cancel</a>
+        <form method="POST" action="{% url 'watchlists:delete_watchlist' watchlist.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete Watchlist</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

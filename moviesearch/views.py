@@ -1,28 +1,24 @@
-import requests
 from django.shortcuts import render
-from .forms import MovieSearchForm
+import requests
 
-API_KEY = 'f3b973b04d9ca01a370a90afe12d30fa'
-BASE_URL = 'https://api.themoviedb.org/3/search/movie'
-
-
-def home(request):
-    return render(request, 'home.html')
+# moviesearch/views.py
+from django.shortcuts import render
+import requests
 
 
 def search_movies(request):
-    form = MovieSearchForm()
+    query = request.GET.get('q')  # Capturing the query parameter
     results = []
 
-    if request.method == 'POST':
-        form = MovieSearchForm(request.POST)
-        if form.is_valid():
-            query = form.cleaned_data['query']
-            response = requests.get(BASE_URL, params={
-                'api_key': API_KEY,
-                'query': query
-            })
-            if response.status_code == 200:
-                results = response.json().get('results', [])
+    if query:
+        api_key = 'f3b973b04d9ca01a370a90afe12d30fa'
+        url = f'https://api.themoviedb.org/3/search/movie?api_key={api_key}&query={query}'
+        response = requests.get(url)
+        if response.status_code == 200:
+            results = response.json().get('results', [])
 
-    return render(request, 'moviesearch/search.html', {'form': form, 'results': results})
+    return render(request, 'moviesearch/search.html', {'movies': results, 'query': query})
+
+
+def home(request):
+    return render(request, 'moviesearch/home.html')

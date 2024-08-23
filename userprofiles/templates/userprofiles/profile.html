@@ -1,18 +1,25 @@
 <!-- userprofiles/templates/userprofiles/profile.html -->
+{% extends "base.html" %}
 
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
 <h2>My Profile</h2>
 <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ user_form.as_p }}
     {{ profile_form.as_p }}
-    <button type="submit">Update Profile</button>
+    <button type="submit" class="btn btn-primary">Update Profile</button>
 </form>
 
+<hr>
+
 <h3>My Watchlists</h3>
-<ul>
+<ul class="list-group">
     {% for watchlist in user_watchlists %}
-    <li>
+    <li class="list-group-item">
         {{ watchlist.name }} ({{ watchlist.movies.count }} movies)
     </li>
     {% endfor %}
 </ul>
+{% endblock %}
